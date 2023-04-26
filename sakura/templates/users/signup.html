@@ -13,7 +13,7 @@
           Регистрация
         </div>
         <div class="card-body">
-          {% if form.errors %}
+         {% if form.errors %}
           {% for field in form %}
           {% for error in field.errors %}
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -30,22 +30,42 @@
           {% endif %}
           <form method="post">
             {% csrf_token %}
-            {% for field in form %}
-            <div class="form-group row my-2 p-2">
-              <label for="{{ field.id_for_label }}">
-                {{ field.label }}
-                {% if field.field.required %}
-                <span class="required text-danger">*</span>
-                {% endif %}
-              </label>
-              {{ field|addclass:'form-control' }}
-              {% if field.help_text %}
-              <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
-                {{ field.help_text|safe }}
-              </small>
-              {% endif %}
+            <div class="mb-3">
+              <label for="username" class="form-label">Имя пользователя</label>
+              <span class="required text-danger">*</span>
+              <input value="{{ username }}" type="text" name="username" class="form-control" id="username" required>
+              <small class="form-text text-muted">Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.</small>
             </div>
-            {% endfor %}
+            <div class="mb-3">
+              <label for="email" class="form-label">Почта</label>
+              <span class="required text-danger">*</span>
+              <input value="{{ email }}" type="email" name="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="password1" class="form-label">Пароль</label>
+              <span class="required text-danger">*</span>
+              <input value="{{ password1 }}" type="password" name="password1" class="form-control" id="password1" required>
+                <ul class="form-text text-muted">
+                  <li>
+                    Пароль не должен быть слишком похож на другую вашу личную информацию.
+                  </li>
+                  <li>
+                    Ваш пароль должен содердать как минимум 8 символов.
+                  </li>
+                  <li>
+                    Пароль не должен быть слишком простым и распространенным.
+                  </li>
+                  <li>
+                    Пароль не можнт состоять только из цифр.
+                  </li>
+                </ul>
+            </div>
+            <div class="mb-3">
+              <label for="password2" class="form-label">Подтверждение пароля</label>
+              <span class="required text-danger">*</span>
+              <input value="{{ password2 }}" type="password" name="password2" class="form-control" id="password2" required>
+              <small class="form-text text-muted">Для подтверждения введите, пожалуйста, пароль еще раз.</small>
+            </div>
             <div class="d-flex justify-content-end">
               <button type="submit" class="btn btn-primary">
                 Создать

@@ -36,5 +36,16 @@ def signup_system(request):
         login(request, user)
         return redirect('products:index')
     else:
-        return render(request, 'users/signup.html', {'form': form})
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        context = {
+            'username': username,
+            'email': email,
+            'password1': password1,
+            'password2': password2,
+            'form': form
+        }
+        return render(request, 'users/signup.html', context)
 
