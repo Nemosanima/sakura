@@ -1,8 +1,50 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Sakura - интернет-магазин книг
+  Sakura - интернет-магазин книг
 {% endblock %}
 
 {% block content %}
+  {% load thumbnail %}
+  {% for book in books %}
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-2 py-4">
+          <div class="card">
+            <div class="card-header">
+              <a href="{% url 'products:book_detail' book.id %}">
+                {% thumbnail book.image "750x1200" crop="center" upscale=True as im %}
+                  <img class="card-img my-2" src="{{ im.url }}">
+                {% endthumbnail %}
+              </a><br>
+            </div>
+          </div>
+          <br>
+          <a href="" class="btn btn-primary" style="float: left">В корзину</a>
+        </div>
+        <div class="col-10 py-4">
+          <div class="card">
+            <div class="card-header">
+              <h3 style="float: right">
+                Цена: {{ book.price }} ₽
+              </h3>
+              <h3>
+                {{ book.title }}
+              </h3>
+              <p>
+                <a href="">{{ book.author }}</a>
+              </p>
+              <p>
+                Кол-во страниц: {{ book.number_of_pages }}<br>
+                Возрастные ограничения: +{{ book.age }}<br>
+              </p>
+              <p>
+                {{ book.description }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
 {% endblock %}

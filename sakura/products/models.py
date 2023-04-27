@@ -1,5 +1,6 @@
 from django.db import models
 from .validators import number_of_pages_validator
+from users.models import User
 
 AGE_CHOICE = (
     (0, 0),
@@ -8,6 +9,14 @@ AGE_CHOICE = (
     (12, 12),
     (16, 16),
     (18, 18)
+)
+
+SCORE_CHOICE = (
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5)
 )
 
 
@@ -41,7 +50,7 @@ class Book(models.Model):
     )
     description = models.TextField(
         'Описание',
-        max_length=500
+        max_length=600
     )
     number_of_pages = models.PositiveIntegerField(
         'Количество страниц',
@@ -75,12 +84,56 @@ class Book(models.Model):
         upload_to='books/',
         blank=False
     )
+    created = models.DateTimeField(
+        'Дата создания',
+        auto_now_add=True,
+    )
 
     class Meta:
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
+        ordering = ['-created']
 
     def __str__(self):
         return self.title
 
+
+class Review(models.Model):
+    text = models.TextField(
+        'Отзыв'
+    )
+    author = models.ForeignKey(
+        User,
+        related_name='reviews',
+        on_delete=models.CASCADE,
+        verbose_name='Автор отзыва'
+    )
+    book = models.ForeignKey(
+        Book,
+        related_name='reviews',
+        on_delete=models.CASCADE,
+        verbose_name='Книга'
+    )
+    score = models.IntegerField(
+        'Оценка',
+        choices=SCORE_CHOICE
+    )
+    created = models.DateTimeField(
+        'Дата публикации',
+        auto_now_add=True,
+    )
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['book', 'author'],
+                name='unique_title_author'
+            )
+        ]
+        ordering = ['-created']
+
+    def __str__(self):
+        return self.text[:20]
 

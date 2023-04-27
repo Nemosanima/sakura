@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'products.apps.ProductsConfig',
     'core.apps.CoreConfig',
+    'cart.apps.CartConfig',
     'sorl.thumbnail',
     'django_cleanup.apps.CleanupConfig',
 ]

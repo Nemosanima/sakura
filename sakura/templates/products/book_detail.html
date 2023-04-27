@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ book.title }}
+{% endblock %}
+
+{% block content %}
+  {% load thumbnail %}
+  {% load user_filters %}
+  <div class="container py-5">
+  <!-- Picture, info and buy parts -->
+    <div class="row">
+      <div class="col-3 py-5">
+        <div class="card">
+          <div class="card-header">
+            {% thumbnail book.image "500x800" crop="center" upscale=True as im %}
+              <img class="card-img my-1" src="{{ im.url }}">
+            {% endthumbnail %}
+          </div>
+        </div>
+      </div>
+      <div class="col-5 py-5">
+        <div class="card">
+          <div class="card-header">
+            <h3>{{ book.title }}</h3>
+            <p>{{ book.author }}</p>
+            <p>ID товара: {{ book.id }}</p>
+            <p>Жанр: {{ book.genre }}</p>
+            <p>Кол-во страниц: {{ book.number_of_pages }}</p>
+            <p>Возрастные ограничения: +{{ book.age }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 py-5">
+        <div class="card">
+          <div class="card-header">
+            <p>Важно: цена на товар добавленный в корзину может изменить.</p>
+            <a class="btn btn-primary" href="">Купить</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <!-- END -->
+
+   <!--Description part -->
+    <div class="row">
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header">
+            {{ book.description }}
+          </div>
+        </div>
+      </div>
+    <!-- END -->
+
+    <!-- Reviews and write review parts-->
+      <div class="row">
+        <div class="col-8 py-4">
+          <h3>Отзывы</h3>
+          {% for review in reviews %}
+            <div class="p-2">
+              <div class="card">
+                <div class="card-header">
+                  <p style="float: right">
+                    {{ review.created|date:"d E Y" }}
+                  </p>
+                  <p>{{ review.author }}</p>
+                  <p>{{ review.text }}</p>
+                  <p style="float: left">
+                    Оценка: {{ review.score }}
+                  </p>
+                  {% if user == review.author%}
+                    <button style="float: right" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#DeleteReview">Удалить</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="DeleteReview" data-bs-backdrop="static" data-bs-keyboard="false"
+                         tabindex="-1" aria-labelledby="DeleteReviewLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="DeleteReviewLabel">Удалить</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Нажмите удалить для подтверждения.
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <a href="{% url 'products:delete_review' review.id %}" class="btn btn-warning">Удалить</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END Modal -->
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="col-4 py-5">
+          {% if user.is_authenticated %}
+            <div class="card my-4">
+              <h5 class="card-header">Оставить отзыв</h5>
+              <div class="card-body">
+                {% if messages %}
+                  {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      {{ message }}
+                      <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="alert"></button>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                <form method="post" action="{% url 'products:add_review' book.id %}">
+                  {% csrf_token %}
+                  <div class="form-group mb-2">
+                    {{ form.score|addclass:"form-control" }}
+                  </div>
+                  <div class="form-group mb-2">
+                    {{ form.text|addclass:"form-control" }}
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary">Отправить</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  <!-- END -->
+  </div>
+{% endblock %}

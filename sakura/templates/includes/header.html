@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container">
-    <a class="navbar-brand" href="{% url 'products:index' %}"><h4>Sakura</h4></a>
+    <a class="navbar-brand" href="{% url 'products:index' %}"><h4 style="color: #ffb7c5">Sakura</h4></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,9 +17,29 @@
           <a class="nav-link active" href="{% url 'users:login' %}">Войти</a>
         </li>
         {% else %}
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'users:logout' %}">Выйти</a>
-        </li>
+          <li class="nav-item">
+            <button class="nav-link active" data-bs-toggle="modal" data-bs-target="#Logout">Выйти</button>
+          </li>
+          <!-- Modal -->
+          <div class="modal fade" id="Logout" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+               aria-labelledby="LogoutLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="LogoutLabel">Выход</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Нажмите выйти для подтверждения.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                  <a class="btn btn-warning" href="{% url 'users:logout' %}">Выйти</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END Modal -->
         {% endif %}
       </ul>
       <form class="d-flex" role="search">

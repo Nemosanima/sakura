@@ -24,14 +24,14 @@
           <form method="post">
             {% csrf_token %}
             <div class="mb-3">
-              <label for="username" class="form-label">Имя пользователя</label>
+              <label for="username" class="form-label">Логин</label>
               <span class="required text-danger">*</span>
-              <input type="text" name="username" class="form-control" id="username" required>
+              <input value="{{ username }}" type="text" name="username" class="form-control" id="username" required>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Пароль</label>
               <span class="required text-danger">*</span>
-              <input type="password" name="password" class="form-control" id="password" required>
+              <input value="{{ password }}" type="password" name="password" class="form-control" id="password" required>
             </div>
             <div class="d-flex justify-content-end">
               <button type="submit" class="btn btn-primary">

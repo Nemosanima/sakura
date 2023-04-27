@@ -7,15 +7,21 @@ from .forms import SignUpForm
 def login_system(request):
     if request.method == 'GET':
         return render(request, 'users/login.html')
-    username = request.POST['username']
-    password = request.POST['password']
+    username = request.POST.get('username')
+    password = request.POST.get('password')
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
         return redirect('products:index')
     else:
         messages.success(request, 'Убедитесь, что введеные данные верны.')
-        return redirect('users:login')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        content = {
+            'username': username,
+            'password': password
+        }
+        return render(request, 'users/login.html', content)
 
 
 def logout_system(request):

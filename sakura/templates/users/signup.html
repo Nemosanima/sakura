@@ -31,7 +31,7 @@
           <form method="post">
             {% csrf_token %}
             <div class="mb-3">
-              <label for="username" class="form-label">Имя пользователя</label>
+              <label for="username" class="form-label">Логин</label>
               <span class="required text-danger">*</span>
               <input value="{{ username }}" type="text" name="username" class="form-control" id="username" required>
               <small class="form-text text-muted">Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.</small>
