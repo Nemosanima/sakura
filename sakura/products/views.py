@@ -7,7 +7,6 @@ from .forms import ReviewForm
 
 
 class Index(View):
-
     def get(self, request):
         books = Book.objects.filter(available=True)
         return render(request, 'products/index.html', {'books': books})
@@ -42,12 +41,16 @@ class AddReview(View):
             return redirect('products:book_detail', book_id=book_id)
 
 
-def delete_review(request, review_id):
-    review = get_object_or_404(Review, id=review_id)
-    if review.author == request.user:
-        review.delete()
-        return redirect('products:book_detail', review.book.id)
-    else:
-        raise PermissionDenied()
+class DeleteReview(View):
+    def post(self, request, review_id):
+        print(request.method)
+        review = get_object_or_404(Review, id=review_id)
+        if review.author == request.user:
+            review.delete()
+            return redirect('products:book_detail', review.book.id)
+        else:
+            raise PermissionDenied()
+
+
 
 

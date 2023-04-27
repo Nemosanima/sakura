@@ -85,7 +85,10 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
-                            <a href="{% url 'products:delete_review' review.id %}" class="btn btn-warning">Удалить</a>
+                            <form method="post" action="{% url 'products:delete_review' review.id %}">
+                              {% csrf_token %}
+                            <button class="btn btn-warning">Удалить</button>
+                            </form>
                           </div>
                         </div>
                       </div>
