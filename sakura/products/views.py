@@ -17,10 +17,20 @@ class BookDetail(View):
         book = get_object_or_404(Book, id=book_id)
         reviews = book.reviews.all()
         form = ReviewForm()
+        if len(reviews) != 0:
+            total_rating = sum(map(lambda x: x.score, reviews))
+            average_rating = round(total_rating / len(reviews), 1)
+            quantity_of_reviews = len(reviews)
+        else:
+            average_rating = 0
+            quantity_of_reviews = 0
         context = {
             'book': book,
             'reviews': reviews,
-            'form': form
+            'form': form,
+            'average_rating': average_rating,
+            'quantity_of_reviews': quantity_of_reviews
+
         }
         return render(request, 'products/book_detail.html', context)
 

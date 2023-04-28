@@ -22,6 +22,11 @@
       <div class="col-5 py-5">
         <div class="card">
           <div class="card-header">
+              {% if quantity_of_reviews != 0  %}
+                <p>Оценка: <span style="color: #FFA500">{{ average_rating }}</span> ({{ quantity_of_reviews }} оценок)</p>
+              {% else %}
+                <p>Пока у товара нет отзывов, но ваш может стать первым</p>
+              {% endif %}
             <h3>{{ book.title }}</h3>
             <p>{{ book.author }}</p>
             <p>ID товара: {{ book.id }}</p>
@@ -35,7 +40,7 @@
         <div class="card">
           <div class="card-header">
             <p>Важно: цена на товар добавленный в корзину может изменить.</p>
-            <a class="btn btn-primary" href="">Купить</a>
+            <a class="btn btn-primary" href="{% url 'cart:add_to_cart' book.id %}">Купить</a>
           </div>
         </div>
       </div>
@@ -59,7 +64,14 @@
           <h3>Отзывы</h3>
           {% for review in reviews %}
             <div class="p-2">
-              <div class="card">
+              <div class="card" style="background-color:
+                        {% if review.score == 4 or review.score == 5 %}
+                          #E0FFFF
+                        {% elif review.score == 3 %}
+                          #FFFFFF
+                        {% else %}
+                          #ffb7c5
+                        {% endif %}">
                 <div class="card-header">
                   <p style="float: right">
                     {{ review.created|date:"d E Y" }}

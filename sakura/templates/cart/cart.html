@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Корзина
+{% endblock %}
+
+{% block content %}
+  {% load thumbnail %}
+  <div class="container py-4" style="color: #4e4e4e">
+    <div class="row">
+      <div class="col-8">
+        <h1>Корзина</h1>
+        {% for item in cart %}
+          {% with book=item.book %}
+            <div class="row">
+              <div class="col-3 py-2">
+                <div class="card">
+                  <div class="card-header">
+                    <a href="{% url 'products:book_detail' book.id %}">
+                      {% thumbnail book.image "750x1200" crop="center" upscale=True as im %}
+                        <img class="card-img my-2" src="{{ im.url }}">
+                      {% endthumbnail %}
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-7 py-2">
+                <div class="card">
+                  <div class="card-header">
+                    <h3>
+                      {{ book.title }}
+                    </h3>
+                    <p>
+                      {{ book.author }}
+                    </p>
+                    <p>
+                      {{ book.price }} ₽
+                    </p>
+                    <p>
+                      Количество: {{ item.amount }}
+                    </p>
+                    <a href="{% url 'cart:remove_from_cart' book.id %}" class="btn btn-secondary">Удалить</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+      <div class="col-4">
+        <h1>Итого</h1>
+        <div class="card">
+          <div class="card-header">
+            <h3>{{ cart.get_total_price }} ₽</h3>
+            <p>{{ cart.get_total_amount }} книги {{ cart.get_total_price }} ₽</p>
+            <p class="py-2">
+              Если цена на товар измениться, то итог в корзине тоже поменяется
+            </p>
+            <a class="btn btn-primary" style="float: left" href="{% url 'cart:clear_cart' %}">Очистить корзину</a>
+            <a class="btn btn-primary" style="float: right">К оплате</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
