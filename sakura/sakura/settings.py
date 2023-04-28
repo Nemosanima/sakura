@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'core.apps.CoreConfig',
     'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
     'sorl.thumbnail',
     'django_cleanup.apps.CleanupConfig',
 ]
@@ -136,3 +137,8 @@ AUTH_USER_MODEL = 'users.User'
 # For pictures
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#  подключаем движок filebased.EmailBackend
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# указываем директорию, в которую будут складываться файлы писем
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')

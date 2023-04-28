@@ -51,6 +51,20 @@ class Cart:
     def get_total_amount(self):
         return sum(item['amount'] for item in self.cart.values())
 
+    def info_for_order(self):
+        books_ids = self.session['cart'].keys()
+        books = Book.objects.filter(id__in=books_ids)
+        books = [f"{book.title} ({self.session['cart'][id]['amount']})" for book in books for id in books_ids if int(id) == book.id]
+        result = ''
+        for book in books:
+            result += book
+            result += '\n'
+        result += f"{self.get_total_amount()} книги {self.get_total_price()} ₽"
+        return result
+
+
+
+
 
 
 

@@ -49,8 +49,7 @@ class Book(models.Model):
         max_length=50
     )
     description = models.TextField(
-        'Описание',
-        max_length=600
+        'Описание'
     )
     number_of_pages = models.PositiveIntegerField(
         'Количество страниц',
