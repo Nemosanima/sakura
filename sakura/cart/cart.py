@@ -18,8 +18,11 @@ class Cart:
     def clear(self):
         self.session[CART_SESSION] = {}
 
-    def add(self, book):
+    def add(self, book, amount=None):
         book_id = str(book.id)
+        if amount is not None:
+            self.cart[book_id]['amount'] = amount - 1
+
         if book_id not in self.cart.keys():
             self.cart[book_id] = {'amount': 1, 'price': str(book.price)}
         else:
@@ -39,12 +42,8 @@ class Cart:
 
     def remove(self, book):
         book_id = str(book.id)
-        if self.cart[book_id]['amount'] > 1:
-            self.cart[book_id]['amount'] -= 1
-            self.save()
-        else:
-            del self.cart[book_id]
-            self.save()
+        del self.cart[book_id]
+        self.save()
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['amount'] for item in self.cart.values())

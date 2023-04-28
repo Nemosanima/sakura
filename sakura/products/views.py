@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.contrib import messages
 from .models import Book, Review
 from django.views import View
@@ -62,5 +63,32 @@ class DeleteReview(View):
             raise PermissionDenied()
 
 
+class AuthorOfBooks(View):
+    def get(self, request, author):
+        books = Book.objects.filter(author=author)
+        return render(request, 'products/author_of_books.html', {'books': books, 'author': author})
 
 
+class Search(View):
+    def get(self, request):
+        search_query = request.GET.get('search')
+        if search_query:
+            books = Book.objects.filter(
+                Q(author__icontains=search_query) |
+                Q(title__icontains=search_query) |
+                Q(description__icontains=search_query) |
+                Q(genre__name__icontains=search_query)
+            )
+        else:
+            books = Book.objects.all()
+
+        if books.count() == '0':
+            title = 'Соответствий не найдено'
+        else:
+            title = 'Все то, что удалось найти'
+
+        context = {
+            'title': title,
+            'books': books
+        }
+        return render(request, 'products/search.html', context)

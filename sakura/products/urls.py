@@ -7,5 +7,7 @@ urlpatterns = [
     path('', views.Index.as_view(), name='index'),
     path('books/<int:book_id>/', views.BookDetail.as_view(), name='book_detail'),
     path('books/<int:book_id>/review/', views.AddReview.as_view(), name='add_review'),
-    path('reviews/<int:review_id>/delete/', views.DeleteReview.as_view(), name='delete_review')
+    path('reviews/<int:review_id>/delete/', views.DeleteReview.as_view(), name='delete_review'),
+    path('<str:author>/books/', views.AuthorOfBooks.as_view(), name='author_of_books'),
+    path('search/', views.Search.as_view(), name='search')
 ]

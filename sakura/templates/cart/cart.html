@@ -37,9 +37,21 @@
                       {{ book.price }} ₽
                     </p>
                     <p>
-                      Количество: {{ item.amount }}
+                    <form method="post" action="{% url 'cart:add_to_cart' book.id %}">
+                    {% csrf_token %}
+                      Количество: <select name="amount" id="hall" value="3">
+                      <option selected disabled hidden>{{ item.amount }}</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                    <p></p>
+                    <button class="btn btn-primary" style="float: left">Изменить</button>
+                    </form>
                     </p>
-                    <a href="{% url 'cart:remove_from_cart' book.id %}" class="btn btn-secondary">Удалить</a>
+                    <a href="{% url 'cart:remove_from_cart' book.id %}" class="btn btn-secondary" style="float: right">Удалить</a>
                   </div>
                 </div>
               </div>
@@ -56,7 +68,27 @@
             <p class="py-2">
               Если цена на товар измениться, то итог в корзине тоже поменяется
             </p>
-            <a class="btn btn-primary" style="float: left" href="{% url 'cart:clear_cart' %}">Очистить корзину</a>
+            <button class="btn btn-secondary" style="float: left" data-bs-toggle="modal" data-bs-target="#DeleteCart">Очистить корзину</button>
+            <!-- Modal -->
+            <div class="modal fade" id="DeleteCart" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                 aria-labelledby="DeleteCartLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="DeleteCartLabel">Очистить корзину</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Нажмите очистить для подтверждения
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <a type="button" class="btn btn-warning" href="{% url 'cart:clear_cart' %}">Очистить</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END Modal -->
             <a class="btn btn-primary" style="float: right">К оплате</a>
           </div>
         </div>

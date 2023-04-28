@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  Sakura - интернет-магазин книг
+  {{ author }}
 {% endblock %}
 
 {% block content %}
   {% load thumbnail %}
   <div class="container py-5">
+    <h3>{{ author }}</h3>
     {% for book in books %}
       <div class="row">
         <div class="col-2 py-5">
@@ -30,7 +31,7 @@
                 {{ book.title }}
               </h3>
               <p>
-                <a href="{% url 'products:author_of_books' book.author %}">{{ book.author }}</a>
+                <a href="">{{ book.author }}</a>
               </p>
               <p>
                 Кол-во страниц: {{ book.number_of_pages }}<br>

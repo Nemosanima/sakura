@@ -42,9 +42,9 @@
           <!-- END Modal -->
         {% endif %}
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary" type="submit">Search</button>
+      <form class="d-flex" role="search" action="{% url 'products:search' %}" method="get">
+        <input class="form-control me-2" type="search" placeholder="Найдите книгу" aria-label="Search" name="search">
+        <button class="btn btn-outline-primary" type="submit">Поиск</button>
       </form>
     </div>
   </div>
