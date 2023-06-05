@@ -1,8 +1,8 @@
 # Sakura
-___
-### Sakura is an imitation of a bookstore. After registering in the store, you can select books, add them to the cart and after placing an order. The order receipt will be sent to your mail.
-___
-### Local launch
+
+Sakura is an imitation of a bookstore. After registering in the store, you can select books, add them to the cart and after placing an order. The order receipt will be sent to your mail.
+
+## Local launch
 
 #### Create a virtual environment
 ```
